@@ -3,6 +3,7 @@
 
 
 
+typedef struct lista Lista;
 
 
 
