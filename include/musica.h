@@ -3,6 +3,14 @@
 
 
 
+typedef struct musica Musica;
+
+
+void imprimirMusica(); 
+
+void destruirMusica();
+
+
 
 
 
