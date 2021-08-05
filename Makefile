@@ -1,4 +1,4 @@
-TARGET := tp2
+TARGET := main
 LIBS := -lm
 CFLAGS := -g -O3
 OBJDIR := obj/

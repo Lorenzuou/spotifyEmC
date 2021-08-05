@@ -12,12 +12,11 @@ int main(){
 //Ler o arquivo com os usuarios e a lista de amizades dos programas 
 
 
-
-
-
-
     
 
+
+    char path[100] = "data/Entrada/amizade.txt";
+    lerAmizades(path);
 
 
 

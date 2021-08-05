@@ -1,6 +1,6 @@
 #include "lista.h"
 #include <string.h>
-
+#include <stdlib.h>
 struct celula
 {
 	void *conteudo;
@@ -28,6 +28,8 @@ Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc)
 
 	return lista;
 }
+
+
 
 void destruirLista(Lista *lista)
 {

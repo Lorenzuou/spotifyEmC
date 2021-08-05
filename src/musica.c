@@ -22,23 +22,7 @@ Musica * novaMusica(char *nome, char * autor){
 
 }
 
-Lista *novaPlaylist()
-{
-    Lista *playlist;
-    playlist = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);
 
-    return playlist;
-}
-
-
-
-
-
-
-Lista * novaPlaylist(){ 
-
-
-}
 
 
 void imprimirMusica(){ 
@@ -51,3 +35,13 @@ void destruirMusica(){
 
 
 }
+
+Lista *novaPlaylist()
+{
+    Lista *playlist;
+    playlist = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);
+
+    return playlist;
+}
+
+
