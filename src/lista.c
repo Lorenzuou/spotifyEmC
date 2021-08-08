@@ -29,8 +29,6 @@ Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc)
 	return lista;
 }
 
-
-
 void destruirLista(Lista *lista)
 {
 	while (lista->primeiraCelula)

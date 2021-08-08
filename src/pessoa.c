@@ -45,15 +45,10 @@ Lista *novaListaPessoas()
     return playlist;
 }
 
-
-
-
-
-void lerAmizades(char *path )
+void lerAmizades(char *path)
 {
     FILE *file = fopen(path, "r");
-    char linha[100], tam[100], quebra;
-    
+    char linha[100], tam[100], quebra;   
 
     while (fgets(linha,100,file)) {
         nome = strtok(linha,";");
@@ -72,5 +67,4 @@ void lerAmizades(char *path )
     }
 
      fclose(file);
-
 }
