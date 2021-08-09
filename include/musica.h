@@ -4,6 +4,7 @@
 
 
 typedef struct musica Musica;
+typedef struct playlist Playlist;
 
 
 void imprimirMusica(); 

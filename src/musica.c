@@ -13,7 +13,13 @@ struct musica{
 }; 
 
 
-Musica * novaMusica(char *nome, char * autor){ 
+struct playlist{ 
+    char * nome;
+    Musica *musicas; 
+}; 
+
+
+Musica *novaMusica(char *nome, char * autor){ 
     Musica *musica = (Musica*)malloc(sizeof(Musica));
 
     musica->nome = strdup(nome); 

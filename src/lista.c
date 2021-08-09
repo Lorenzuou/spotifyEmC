@@ -127,7 +127,6 @@ void *removerItemLista(Lista *lista, int indice)
 	return (mat);
 }
 
-
 void moverLista(Lista *listaOrigem, Lista *listaDestino, int opcao)
 {
 	Celula *atual = listaOrigem->primeiraCelula;
