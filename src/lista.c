@@ -55,9 +55,11 @@ void *buscarLista(Lista *lista, void *conteudo)
 	while (atual)
 	{
 		int resultado = 1;
-
 		if (lista->searchFunc)
 			lista->searchFunc(atual->conteudo, conteudo, &resultado);
+			
+
+
 
 		if (resultado == 0)
 			break;
