@@ -40,7 +40,6 @@ void imprimirPessoa(Pessoa *pessoa)
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado)
 {
 
- 
     *resultado = strcmp(pessoa->nome, nome);
 }
 
@@ -58,13 +57,13 @@ void lerAmizades(char *path)
 
     //cria as pessoas de acordo com a primeira linha do arquivo
     char *nome = strtok(linha, ";");
-
+    printf(nome);
     while (nome)
     {
         Pessoa *pessoa = novaPessoa(strdup(nome));
         adicionarLista(pessoas, pessoa);
 
-        // printf(nome);
+         printf(nome);
 
         nome = strtok(NULL, ";");
     }
@@ -75,18 +74,22 @@ void lerAmizades(char *path)
         //adiciona a as amizades nas pessoas
         char *nome1 = strtok(linha, ";");
         Pessoa *pessoa1 = buscarLista(pessoas, nome1);
-        // printf("%s\n", pessoa1->nome);
+        printf("::-%s-::", pessoa1->nome);
 
         char *nome2 = strtok(NULL, ";");
 
-        len = strlen(str);
+        // nome2[strlen]
+        int size = strlen(nome2); //Total size of string
+        if (nome2[size - 1] == '\n')
+            nome2[size - 2] = '\0';
 
-        nome2[strlen]
+        
+       // printf("::-%s-::", nome2);
+
         Pessoa *pessoa2 = buscarLista(pessoas, nome2);
+        adicionarLista(pessoa1->amizades, pessoa2);
+        printf("::-%s-::\n", pessoa2);
 
-        printf(nome2);
-
-        // adicionarLista(pessoa1->amizades, pessoa2);
         // adicionarLista(pessoa2->amizades, pessoa1);
     }
 
