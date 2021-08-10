@@ -8,7 +8,6 @@
 
 int main()
 {
-
     //Ler o arquivo com os usuarios e a lista de amizades dos programas
 
     // char path[100] = "data/Entrada/amizade.txt";
@@ -26,6 +25,8 @@ int main()
     fclose(fp);
 
     lerAmizades("data/Entrada/amizade.txt");
+    
+    printf("Teste");
 
     return 0;
 }

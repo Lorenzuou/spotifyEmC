@@ -14,9 +14,10 @@ struct lista
 	Celula *ultimaCelula;
 	freeData freeFunc;
 	printData printFunc;
+	searchData searchFunc;
 };
 
-Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc)
+Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc, searchData searchFunc)
 {
 	Lista *lista = malloc(sizeof(*lista));
 
@@ -25,6 +26,7 @@ Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc)
 	lista->ultimaCelula = NULL;
 	lista->freeFunc = freeFunc;
 	lista->printFunc = printFunc;
+	lista->searchFunc = searchFunc;
 
 	return lista;
 }
@@ -44,6 +46,26 @@ void destruirLista(Lista *lista)
 		free(celula);
 	}
 	free(lista);
+}
+
+void *buscarLista(Lista *lista, void *conteudo)
+{
+	Celula *atual = lista->primeiraCelula;
+
+	while (atual)
+	{
+		int resultado = 1;
+
+		if (lista->searchFunc)
+			lista->searchFunc(atual->conteudo, conteudo, &resultado);
+
+		if (resultado == 0)
+			break;
+
+		atual = atual->prox;
+	}
+	
+	return atual ? atual->conteudo : NULL;
 }
 
 void imprimirLista(Lista *lista)

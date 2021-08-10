@@ -3,10 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
-
-
-
 struct musica{ 
     char *nome; 
     char *autor; 
@@ -18,34 +14,33 @@ struct playlist{
     Musica *musicas; 
 }; 
 
-
 Musica *novaMusica(char *nome, char * autor){ 
     Musica *musica = (Musica*)malloc(sizeof(Musica));
 
     musica->nome = strdup(nome); 
     musica->autor = strdup(autor); 
+}
 
+void imprimirMusica()
+{ 
 
 }
 
 
-
-
-void imprimirMusica(){ 
-
+void destruirMusica()
+{ 
 
 }
 
-
-void destruirMusica(){ 
-
+void buscarMusica()
+{ 
 
 }
 
 Lista *novaPlaylist()
 {
     Lista *playlist;
-    playlist = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);
+    playlist = novaLista(sizeof(Musica), destruirMusica, imprimirMusica, buscarMusica);
 
     return playlist;
 }

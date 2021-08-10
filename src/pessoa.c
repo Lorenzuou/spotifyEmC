@@ -1,4 +1,5 @@
 #include "pessoa.h"
+#include "musica.h"
 #include "lista.h"
 #include "util.h"
 #include <stdio.h>
@@ -8,7 +9,6 @@
 struct pessoa
 {
     char *nome;
-    int numPlaylists;
     Lista *playlists;
     Lista *amizades;
 };
@@ -18,8 +18,8 @@ Pessoa *novaPessoa(char *nome)
     Pessoa *pessoa = (Pessoa *)malloc(sizeof(Pessoa));
 
     pessoa->nome = strdup(nome);
-    // pessoa->numPlaylists = numPlaylists;
-    // pessoa->playlists = playlists;
+    pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirPessoa, buscarPessoa);
+    //pessoa->playlists = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);;
 
     return pessoa;
 }
@@ -27,54 +27,80 @@ Pessoa *novaPessoa(char *nome)
 void destruirPessoa(Pessoa *pessoa)
 {
     free(pessoa->nome);
-    //Fazer as funcoes de dar free nas playlists e amizades do usuario
+    destruirLista(pessoa->amizades);
+    destruirLista(pessoa->playlists);
 
     free(pessoa);
 }
 
 void imprimirPessoa(Pessoa *pessoa)
 {
+
 }
 
-Lista *novaListaPessoas()
+void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado)
 {
-    Lista *playlist;
-    playlist = novaLista(sizeof(Pessoa), destruirPessoa, imprimirPessoa);
-
-    return playlist;
+    resultado = strcmp(pessoa->nome, nome);
 }
 
-void inserePessoa(Lista * lista, Pessoa *pessoa){ 
-    adicionarLista(lista,pessoa); 
-}
+// Lista *novaListaPessoas()
+// {
+//     Lista *pessoas;
+//     pessoas = novaLista(sizeof(Pessoa), destruirPessoa, imprimirPessoa);
+
+//     return pessoas;
+// }
+
+// void inserePessoa(Lista *lista, Pessoa *pessoa)
+// {
+//     adicionarLista(lista, pessoa);
+// }
 
 void lerAmizades(char *path)
 {
+    int i = 0;
 
-    Lista *pessoas = novaListaPessoas(); 
-
-
+    Lista *pessoas = novaLista(sizeof(Pessoa), destruirPessoa, imprimirPessoa, buscarPessoa);
 
     FILE *file = fopen(path, "r");
 
     char linha[1024];
 
-    while (fgets(linha,1024,file)  )
+    while (fgets(linha, 1024, file))
     {
-
-        char *nome = strtok(linha, ";");
-        Pessoa *pessoa = novaPessoa(nome);
-        adicionarLista(pessoas,pessoa); 
-        printf("%s ", nome);
-
-        char *token;
-        while (token = strtok(NULL, ";"))
+        if(i == 0)
         {
-            pessoa = novaPessoa(token); 
-            adicionarLista(pessoas,pessoa); 
-           
+            //cria as pessoas de acordo com a primeira linha do arquivo
+            char *nome = strtok(linha, ";");
 
+            while (nome)
+            {
+                Pessoa *pessoa = novaPessoa(strdup(nome));
+                adicionarLista(pessoas, pessoa);
+
+                printf(nome);
+
+                nome = strtok(NULL, ";");
+            }
         }
+        else
+        {
+            //adiciona a as amizades nas pessoas
+            char *nome1 = strtok(linha, ";");
+            Pessoa *pessoa1 = buscarLista(pessoas, nome1);
+
+            printf(pessoa1->nome);
+
+            char *nome2 = strtok(NULL, ";");
+            Pessoa *pessoa2 = buscarLista(pessoas, nome2);
+
+            printf(pessoa2->nome);
+
+            adicionarLista(pessoa1->amizades, pessoa2);
+            adicionarLista(pessoa2->amizades, pessoa1);
+        }
+
+        i++;
     }
 
     fclose(file);

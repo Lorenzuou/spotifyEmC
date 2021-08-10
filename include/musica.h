@@ -11,6 +11,8 @@ void imprimirMusica();
 
 void destruirMusica();
 
+void buscarMusica();
+
 
 
 

@@ -9,6 +9,8 @@ typedef void (*freeData)(void *);
 
 typedef void (*printData)(void *);
 
+typedef void (*searchData)(void *, void *, int*);
+
 /**
 *@brief cria uma nova lista genérica
 * @param tamConteudo tamanho em bites do conteúdo de cada elemento da lista
@@ -16,7 +18,7 @@ typedef void (*printData)(void *);
 * @param printFunc funcao de printar a struct
 * @return Uma lista vazia do conteudo a ser listado
 */
-Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc);
+Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc, searchData searchFunc);
 
 /**
 *@brief retorna um ponteiro de void do tipo de conteudo da lista
@@ -31,6 +33,12 @@ void *getCelula(Lista *lista, int posicao);
 * @param lista Lista do conteudo
 */
 void destruirLista(Lista *lista);
+
+/**
+*@brief libera a memoria da lista e de todos os conteudos dentro dela
+* @param lista Lista do conteudo
+*/
+void *buscarLista(Lista *lista, void *conteudo);
 
 /**
 *@brief remove o primeiro elemento da lista 
