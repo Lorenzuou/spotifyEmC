@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+void removerQuebraLinha(char *nome);
 
 /**
 *@brief lê e retorna uma linha de um arquivo de texto especificado. A cada chamada da função, enquanto o arquivo não for fechado, ela lera uma nova linha 

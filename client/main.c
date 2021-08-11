@@ -25,8 +25,6 @@ int main()
     fclose(fp);
 
     lerAmizades("data/Entrada/amizade.txt");
-    
-    printf("Teste");
 
     return 0;
 }

@@ -11,6 +11,8 @@ void destruirPessoa(Pessoa *pessoa);
 
 void imprimirPessoa(Pessoa *pessoa);
 
+void imprimirAmizade(Pessoa *pessoa);
+
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado); 
 
 

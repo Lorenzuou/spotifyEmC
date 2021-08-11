@@ -18,7 +18,7 @@ Pessoa *novaPessoa(char *nome)
     Pessoa *pessoa = (Pessoa *)malloc(sizeof(Pessoa));
 
     pessoa->nome = strdup(nome);
-    pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirPessoa, buscarPessoa);
+    pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirAmizade, buscarPessoa);
     //pessoa->playlists = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);;
 
     return pessoa;
@@ -35,6 +35,14 @@ void destruirPessoa(Pessoa *pessoa)
 
 void imprimirPessoa(Pessoa *pessoa)
 {
+    printf("PESSOA: %s\n", pessoa->nome);
+    imprimirLista(pessoa->amizades);
+    printf("\n");
+}
+
+void imprimirAmizade(Pessoa *pessoa)
+{
+    printf("  AMIGO: %s\n", pessoa->nome);
 }
 
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado)
@@ -53,46 +61,44 @@ void lerAmizades(char *path)
 
     char linha[1024];
 
-    fgets(linha, 1024, file);
-
-    //cria as pessoas de acordo com a primeira linha do arquivo
-    char *nome = strtok(linha, ";");
-    printf(nome);
-    while (nome)
-    {
-        Pessoa *pessoa = novaPessoa(strdup(nome));
-        adicionarLista(pessoas, pessoa);
-
-         printf(nome);
-
-        nome = strtok(NULL, ";");
-    }
-
     while (fgets(linha, 1024, file))
     {
+        if (i == 0)
+        {
+            //cria as pessoas de acordo com a primeira linha do arquivo
+            char *nome = strtok(linha, ";");
+            while (nome)
+            {
+                Pessoa *pessoa = novaPessoa(strdup(nome));
+                adicionarLista(pessoas, pessoa);
 
-        //adiciona a as amizades nas pessoas
-        char *nome1 = strtok(linha, ";");
-        Pessoa *pessoa1 = buscarLista(pessoas, nome1);
-        printf("::-%s-::", pessoa1->nome);
+                nome = strtok(NULL, ";");
 
-        char *nome2 = strtok(NULL, ";");
+                if (nome)
+                {
+                    removerQuebraLinha(nome);
+                }
+            }
+        }
+        else
+        {
+            //adiciona a as amizades nas pessoas
+            char *nome1 = strtok(linha, ";");
+            Pessoa *pessoa1 = buscarLista(pessoas, nome1);
 
-        // nome2[strlen]
-        int size = strlen(nome2); //Total size of string
-        if (nome2[size - 1] == '\n')
-            nome2[size - 2] = '\0';
+            char *nome2 = strtok(NULL, ";");
+            removerQuebraLinha(nome2);
 
-        
-       // printf("::-%s-::", nome2);
+            Pessoa *pessoa2 = buscarLista(pessoas, nome2);
 
-        Pessoa *pessoa2 = buscarLista(pessoas, nome2);
-        adicionarLista(pessoa1->amizades, pessoa2);
-        printf("::-%s-::\n", pessoa2);
+            adicionarLista(pessoa1->amizades, pessoa2);
+            adicionarLista(pessoa2->amizades, pessoa1);
+        }
 
-        // adicionarLista(pessoa2->amizades, pessoa1);
+        i++;
     }
 
-    i++;
+    imprimirLista(pessoas);
+
     fclose(file);
 }

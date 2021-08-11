@@ -7,6 +7,13 @@
 
 #define TAM_UTIL 1
 
+void removerQuebraLinha(char *nome)
+{
+    int size = strlen(nome);
+    if (nome[size - 1] == '\n')
+        nome[size - 2] = '\0';
+}
+
 char *lerLinha(FILE *fp)
 {
     // if (linha == NULL)
