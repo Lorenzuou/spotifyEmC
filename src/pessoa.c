@@ -25,7 +25,7 @@ Pessoa *novaPessoa(char *nome)
 void destruirPessoa(Pessoa *pessoa)
 {
     free(pessoa->nome);
-    destruirLista(pessoa->amizades);
+    //destruirLista(pessoa->amizades); // Problemas em dar free nas amizades (double free)
     destruirLista(pessoa->playlists);
 
     free(pessoa);
@@ -102,9 +102,8 @@ Lista *lerAmizades(char *path)
     return pessoas;
 }
 
-void lerPlaylists(Lista *pessoas, char *path)
+Lista* lerPlaylists(Lista *pessoas, char *path)
 {
-
     int i = 0;
 
     Lista *playlists = novaListaPlaylists();
@@ -120,15 +119,27 @@ void lerPlaylists(Lista *pessoas, char *path)
         Pessoa *pessoa = buscarLista(pessoas, nome);
         int qtdPlaylists = atoi(strtok(NULL, ";"));
 
-        for (int i = 0; i < qtdPlaylists - 1; i++)
+        for (int i = 0; i < qtdPlaylists; i++)
         {
 
-            char *nomePlaylist = strtok(NULL, ";\n");
-            // printf("%s", nomePlaylist);
+            char *nomePlaylist = strtok(NULL, ";");
+
+            if (nomePlaylist)
+            {
+                removerQuebraLinha(nomePlaylist);
+            }
             Playlist *nova = novaPlaylist(nomePlaylist);
-              printf("NOME PLAYLIST: %s\n", getNomePlaylist(nova));
-            //  adicionarLista(pessoa->playlists, pessoa);
+
+            //printf(" \nNOME PLAYLIST: %s\n", getNomePlaylist(nova));
+            adicionarLista(pessoa->playlists, nova); 
+            adicionarLista(playlists, nova); 
         }
+
+
     }
     fclose(file);
+    return playlists;
 }
+
+
+

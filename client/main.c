@@ -13,20 +13,27 @@ int main()
     // char path[100] = "data/Entrada/amizade.txt";
     // lerAmizades(path);
 
-    FILE *fp;
-    fp = fopen("data/Entrada/amizade.txt", "r");
-    if (fp == NULL)
-    {
-        perror("fopen()");
-        return EXIT_FAILURE;
-    }
-    char *texto = lerLinha(fp);
+    // FILE *fp;
+    // fp = fopen("data/Entrada/amizade.txt", "r");
+    // if (fp == NULL)
+    // {
+    //     perror("fopen()");
+    //     return EXIT_FAILURE;
+    // }
+    // char *texto = lerLinha(fp);
 
-    fclose(fp);
+    // fclose(fp);
 
-    Lista * pessoas = lerAmizades("data/Entrada/amizade.txt");
+    // lendo os dois primeiros arquivos  do programa.
 
-    lerPlaylists(pessoas,"data/Entrada/playlists.txt");
+    Lista *pessoas = lerAmizades("data/Entrada/amizade.txt");
+
+    Lista * playlists = lerPlaylists(pessoas,"data/Entrada/playlists.txt");
+
+    destruirLista(pessoas);
+    //destruirLista(playlists); talvez nao precise dar free nessa lista pq as playlists sao desalocadas no free anterior
+
+
 
     return 0;
 }

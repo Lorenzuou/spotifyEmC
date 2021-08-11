@@ -14,6 +14,7 @@ void destruirMusica();
 void buscarMusica();
 
 
+char * getNomePlaylist(Playlist *nova);
 
 Playlist *novaPlaylist(char *nome); 
 

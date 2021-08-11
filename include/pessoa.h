@@ -19,10 +19,11 @@ void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado);
 
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado);
 
+Lista *novaListaPlaylists(); 
 
 Lista *lerAmizades(char *path); 
 
-void lerPlaylists(Lista * pessoas, char *path); 
+Lista*  lerPlaylists(Lista * pessoas, char *path); 
 
 
 #endif

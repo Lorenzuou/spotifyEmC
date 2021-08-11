@@ -37,17 +37,16 @@ void buscarMusica()
 }
 
 
-void destruirPlaylist(){ 
-
+void destruirPlaylist(Playlist * p){ 
+    free(p->nome); 
+    //destruirLista(p->musicas); 
 }
 void imprimirPlaylist(){ 
 
 }
 
-char* getNomePlaylist(Playlist *play){ 
-
-    printf(play->nome);
-    return 0;
+char * getNomePlaylist(Playlist *play){ 
+    return play->nome;
 }
 Lista *novaListaPlaylists(){ 
 
@@ -59,7 +58,7 @@ Playlist *novaPlaylist(char *nome)
     Playlist *playlist;
     playlist = novaLista(sizeof(Playlist), destruirMusica, imprimirMusica, buscarMusica);
     playlist->nome = strdup(nome);
-    printf("%s",playlist->nome);
+    //printf("%s",playlist->nome);
 
     return playlist;
 
