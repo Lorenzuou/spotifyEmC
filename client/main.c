@@ -24,7 +24,9 @@ int main()
 
     fclose(fp);
 
-    lerAmizades("data/Entrada/amizade.txt");
+    Lista * pessoas = lerAmizades("data/Entrada/amizade.txt");
+
+    lerPlaylists(pessoas,"data/Entrada/playlists.txt");
 
     return 0;
 }

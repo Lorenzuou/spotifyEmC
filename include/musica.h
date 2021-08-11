@@ -15,7 +15,7 @@ void buscarMusica();
 
 
 
-
+Playlist *novaPlaylist(char *nome); 
 
 
 

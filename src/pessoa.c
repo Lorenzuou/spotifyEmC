@@ -1,6 +1,4 @@
 #include "pessoa.h"
-#include "musica.h"
-#include "lista.h"
 #include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +17,7 @@ Pessoa *novaPessoa(char *nome)
 
     pessoa->nome = strdup(nome);
     pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirAmizade, buscarPessoa);
-    //pessoa->playlists = novaLista(sizeof(Musica), destruirMusica, imprimirMusica);;
+    pessoa->playlists = novaListaPlaylists();
 
     return pessoa;
 }
@@ -51,7 +49,7 @@ void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado)
     *resultado = strcmp(pessoa->nome, nome);
 }
 
-void lerAmizades(char *path)
+Lista *lerAmizades(char *path)
 {
     int i = 0;
 
@@ -69,7 +67,7 @@ void lerAmizades(char *path)
             char *nome = strtok(linha, ";");
             while (nome)
             {
-                Pessoa *pessoa = novaPessoa(strdup(nome));
+                Pessoa *pessoa = novaPessoa(nome);
                 adicionarLista(pessoas, pessoa);
 
                 nome = strtok(NULL, ";");
@@ -100,5 +98,37 @@ void lerAmizades(char *path)
 
     imprimirLista(pessoas);
 
+    fclose(file);
+    return pessoas;
+}
+
+void lerPlaylists(Lista *pessoas, char *path)
+{
+
+    int i = 0;
+
+    Lista *playlists = novaListaPlaylists();
+
+    FILE *file = fopen(path, "r");
+
+    char linha[1024];
+
+    while (fgets(linha, 1024, file))
+    {
+        char *nome = strtok(linha, ";");
+
+        Pessoa *pessoa = buscarLista(pessoas, nome);
+        int qtdPlaylists = atoi(strtok(NULL, ";"));
+
+        for (int i = 0; i < qtdPlaylists - 1; i++)
+        {
+
+            char *nomePlaylist = strtok(NULL, ";\n");
+            // printf("%s", nomePlaylist);
+            Playlist *nova = novaPlaylist(nomePlaylist);
+              printf("NOME PLAYLIST: %s\n", getNomePlaylist(nova));
+            //  adicionarLista(pessoa->playlists, pessoa);
+        }
+    }
     fclose(file);
 }
