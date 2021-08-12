@@ -71,10 +71,14 @@ void atribuirMusicas(Playlist *playlist)
 
     char linha[1024];
 
+    char *str1; 
+    char *str2; 
+
     while (fgets(linha, 1024, file))
     {
-        
-    }
+      // ler as musicas aqui 
+
+    }   
 }
 Playlist *novaPlaylist(char *nome)
 {
