@@ -36,23 +36,46 @@ void buscarMusica()
 {
 }
 
-
-void destruirPlaylist(Playlist * p){ 
-    free(p->nome); 
-    //destruirLista(p->musicas); 
+void destruirPlaylist(Playlist *p)
+{
+    free(p->nome);
+    //destruirLista(p->musicas);
 }
-void imprimirPlaylist(){ 
-
+void imprimirPlaylist()
+{
 }
 
-char * getNomePlaylist(Playlist *play){ 
+char *getNomePlaylist(Playlist *play)
+{
     return play->nome;
 }
-Lista *novaListaPlaylists(){ 
+Lista *novaListaPlaylists()
+{
 
-    return  novaLista(sizeof(Playlist), destruirPlaylist, imprimirPlaylist,NULL);
+    return novaLista(sizeof(Playlist), destruirPlaylist, imprimirPlaylist, NULL);
 }
 
+void atribuirMusicas(Playlist *playlist)
+{
+    // char *path = "data/Entrada/" ; 
+    // char *mais = malloc(sizeof(strlen(playlist->nome) + 13)); 
+
+
+    char *fileName = playlist->nome;
+    char path[100] = "data/Entrada/";
+    strcat(path, fileName);
+
+
+   
+    FILE *file = fopen(path, "r");
+
+    char linha[1024];
+
+    while (fgets(linha, 1024, file))
+    {
+        
+    }
+}
 Playlist *novaPlaylist(char *nome)
 {
     Playlist *playlist;
@@ -60,6 +83,7 @@ Playlist *novaPlaylist(char *nome)
     playlist->nome = strdup(nome);
     //printf("%s",playlist->nome);
 
-    return playlist;
+    atribuirMusicas(playlist);
 
-} 
+    return playlist;
+}

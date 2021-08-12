@@ -30,6 +30,10 @@ int main()
 
     Lista * playlists = lerPlaylists(pessoas,"data/Entrada/playlists.txt");
 
+    
+
+
+
     destruirLista(pessoas);
     //destruirLista(playlists); talvez nao precise dar free nessa lista pq as playlists sao desalocadas no free anterior
 
