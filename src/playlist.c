@@ -10,12 +10,6 @@ struct playlist
     Lista *musicas;
 };
 
-struct musica
-{
-    char *autor;
-    char *nome;
-};
-
 // ----
 
 char *getNomePlaylist(Playlist *playlist)
@@ -28,7 +22,7 @@ Playlist *novaPlaylist(char *nome)
     Playlist *playlist = (Playlist *)malloc(sizeof(Playlist));
     playlist->nome = strdup(nome);
 
-     playlist->musicas = novaLista(sizeof(Musica), destruirMusica, imprimirMusica, buscarMusica);
+    playlist->musicas = novaListaMusica();
 
     lerMusicas(playlist);
 
@@ -43,7 +37,8 @@ Lista *novaListaPlaylist()
 void destruirPlaylist(Playlist *playlist)
 {
     free(playlist->nome);
-    //destruirLista(playlist->musicas);
+    destruirLista(playlist->musicas);
+    free(playlist);
 }
 
 void imprimirPlaylist(Playlist *playlist)
@@ -54,7 +49,6 @@ void imprimirPlaylist(Playlist *playlist)
 
 void buscarPlaylist(Playlist *playlist)
 {
-
 }
 
 void adicionarMusica(Playlist *playlist, Musica *musica)
@@ -87,7 +81,7 @@ void lerPlaylists(Lista *pessoas, char *path)
             }
             Playlist *playlist = novaPlaylist(nomePlaylist);
 
-            adicionarPlaylist(pessoa, playlist); 
+            adicionarPlaylist(pessoa, playlist);
         }
     }
 
@@ -96,53 +90,31 @@ void lerPlaylists(Lista *pessoas, char *path)
 
 // ----
 
-Musica *novaMusica(char *autor, char *nome)
-{
-    Musica *musica = (Musica *)malloc(sizeof(Musica));
-
-    musica->autor = strdup(autor);
-    musica->nome = strdup(nome);
-
-    return musica; 
-}
-
-void imprimirMusica(Musica *musica)
-{
-    printf("    MUSICA: %s - %s\n", musica->autor, musica->nome);
-}
-
-void destruirMusica(Musica *musica)
-{
-    free(musica->autor);
-    free(musica->nome);
-}
-
-void buscarMusica(Musica *musica)
-{
-
-}
-
 void lerMusicas(Playlist *playlist)
 {
-    // char *path = "data/Entrada/" ; 
-    // char *mais = malloc(sizeof(strlen(playlist->nome) + 13)); 
+    // char *path = "data/Entrada/" ;
+    // char *mais = malloc(sizeof(strlen(playlist->nome) + 13));
 
     char *fileName = getNomePlaylist(playlist);
     char path[100] = "data/Entrada/";
     strcat(path, fileName);
-   
+
     FILE *file = fopen(path, "r");
 
     char linha[1024];
 
-    char autor[100]; 
-    char nome[100]; 
+    char autor[100];
+    char nome[100];
 
     while (fgets(linha, 1024, file))
     {
         // lendo e separando autor e música
-        sscanf(linha, "%[^-] - %[^\n]", autor, nome); 
-        Musica *musica = novaMusica(autor, nome); 
+        sscanf(linha, "%[^-] - %[^\n]", autor, nome);
+
+        
+        autor[strlen(autor) - 1] = '\0';
+
+        Musica *musica = novaMusica(autor, nome);
         adicionarMusica(playlist, musica);
-    }   
+    }
 }

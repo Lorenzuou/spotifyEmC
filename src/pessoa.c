@@ -16,7 +16,7 @@ Pessoa *novaPessoa(char *nome)
     Pessoa *pessoa = (Pessoa *)malloc(sizeof(Pessoa));
 
     pessoa->nome = strdup(nome);
-    pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirAmizade, buscarPessoa);
+    pessoa->amizades = novaLista(sizeof(Pessoa), NULL, imprimirAmizade, buscarPessoa);
     pessoa->playlists = novaListaPlaylist();
 
     return pessoa;
@@ -25,10 +25,16 @@ Pessoa *novaPessoa(char *nome)
 void destruirPessoa(Pessoa *pessoa)
 {
     free(pessoa->nome);
-    //destruirLista(pessoa->amizades); // Problemas em dar free nas amizades (double free)
-    //destruirLista(pessoa->playlists);
+    destruirAmizades(pessoa->amizades); // Problemas em dar free nas amizades (double free) faz sentido pq essa funcao vai ser chamada para todos os usuarios do programa
+    destruirLista(pessoa->playlists);
 
     free(pessoa);
+}
+
+void destruirAmizades(Pessoa * pessoa){ 
+
+    free(pessoa->amizades);
+
 }
 
 void imprimirPessoa(Pessoa *pessoa)

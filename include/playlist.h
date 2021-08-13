@@ -1,11 +1,11 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include "lista.h"
 
+#include "lista.h"
+#include "musica.h"
 typedef struct playlist Playlist;
 
-typedef struct musica Musica;
 
 // ----
 
@@ -27,13 +27,7 @@ void lerPlaylists(Lista *pessoas, char *path);
 
 // ----
 
-Musica *novaMusica(char *autor, char *nome); 
 
-void imprimirMusica(Musica *musica); 
-
-void destruirMusica(Musica *musica);
-
-void buscarMusica(Musica *musica);
 
 void lerMusicas(Playlist *playlist);
 

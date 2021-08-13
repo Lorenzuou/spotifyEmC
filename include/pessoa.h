@@ -10,6 +10,8 @@ Pessoa *novaPessoa(char *nome);
 
 void destruirPessoa(Pessoa *pessoa); 
 
+void destruirAmizades(Pessoa * pessoa); 
+
 void imprimirPessoa(Pessoa *pessoa);
 
 void imprimirAmizade(Pessoa *pessoa);
