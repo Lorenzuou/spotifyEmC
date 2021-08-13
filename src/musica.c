@@ -16,12 +16,14 @@ struct playlist
     Musica *musicas;
 };
 
-Musica *novaMusica(char *nome, char *autor)
+Musica *novaMusica(char *autor, char *nome)
 {
     Musica *musica = (Musica *)malloc(sizeof(Musica));
 
     musica->nome = strdup(nome);
     musica->autor = strdup(autor);
+
+    return musica; 
 }
 
 void imprimirMusica()
@@ -71,14 +73,19 @@ void atribuirMusicas(Playlist *playlist)
 
     char linha[1024];
 
-    char *str1; 
-    char *str2; 
+    char str1[100]; 
+    char str2[100]; 
 
     while (fgets(linha, 1024, file))
     {
-      // ler as musicas aqui 
-
+      // lendo e separando banda e música
+        sscanf(linha, "%[^-] - %[^\n]",str1,str2); 
+        Musica *musica = novaMusica(str1,str2); 
+        adicionarLista(playlist->musicas,musica); // dando errado aqui 
+       
     }   
+
+
 }
 Playlist *novaPlaylist(char *nome)
 {

@@ -18,6 +18,8 @@ char * getNomePlaylist(Playlist *nova);
 
 Playlist *novaPlaylist(char *nome); 
 
+Musica *novaMusica(char *autor, char *nome); 
+
 
 
 #endif
