@@ -1,12 +1,12 @@
 #ifndef PESSOA_H
 #define PESSOA_H
+
 #include "lista.h"
-#include "musica.h"
+#include "playlist.h"
 
 typedef struct pessoa Pessoa;
 
-
-
+Pessoa *novaPessoa(char *nome);
 
 void destruirPessoa(Pessoa *pessoa); 
 
@@ -16,14 +16,8 @@ void imprimirAmizade(Pessoa *pessoa);
 
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado); 
 
-
-void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado);
-
-Lista *novaListaPlaylists(); 
+void adicionarPlaylist(Pessoa *pessoa, Playlist *playlist);
 
 Lista *lerAmizades(char *path); 
-
-Lista*  lerPlaylists(Lista * pessoas, char *path); 
-
 
 #endif

@@ -17,7 +17,7 @@ Pessoa *novaPessoa(char *nome)
 
     pessoa->nome = strdup(nome);
     pessoa->amizades = novaLista(sizeof(Pessoa), destruirPessoa, imprimirAmizade, buscarPessoa);
-    pessoa->playlists = novaListaPlaylists();
+    pessoa->playlists = novaListaPlaylist();
 
     return pessoa;
 }
@@ -26,7 +26,7 @@ void destruirPessoa(Pessoa *pessoa)
 {
     free(pessoa->nome);
     //destruirLista(pessoa->amizades); // Problemas em dar free nas amizades (double free)
-    destruirLista(pessoa->playlists);
+    //destruirLista(pessoa->playlists);
 
     free(pessoa);
 }
@@ -35,6 +35,7 @@ void imprimirPessoa(Pessoa *pessoa)
 {
     printf("PESSOA: %s\n", pessoa->nome);
     imprimirLista(pessoa->amizades);
+    imprimirLista(pessoa->playlists);
     printf("\n");
 }
 
@@ -45,8 +46,12 @@ void imprimirAmizade(Pessoa *pessoa)
 
 void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado)
 {
-
     *resultado = strcmp(pessoa->nome, nome);
+}
+
+void adicionarPlaylist(Pessoa *pessoa, Playlist *playlist)
+{
+    adicionarLista(pessoa->playlists, playlist);
 }
 
 Lista *lerAmizades(char *path)
@@ -96,50 +101,11 @@ Lista *lerAmizades(char *path)
         i++;
     }
 
-    imprimirLista(pessoas);
-
     fclose(file);
     return pessoas;
 }
 
-Lista* lerPlaylists(Lista *pessoas, char *path)
-{
-    int i = 0;
 
-    Lista *playlists = novaListaPlaylists();
-
-    FILE *file = fopen(path, "r");
-
-    char linha[1024];
-
-    while (fgets(linha, 1024, file))
-    {
-        char *nome = strtok(linha, ";");
-
-        Pessoa *pessoa = buscarLista(pessoas, nome);
-        int qtdPlaylists = atoi(strtok(NULL, ";"));
-
-        for (int i = 0; i < qtdPlaylists; i++)
-        {
-
-            char *nomePlaylist = strtok(NULL, ";");
-
-            if (nomePlaylist)
-            {
-                removerQuebraLinha(nomePlaylist);
-            }
-            Playlist *nova = novaPlaylist(nomePlaylist);
-
-            //printf(" \nNOME PLAYLIST: %s\n", getNomePlaylist(nova));
-            adicionarLista(pessoa->playlists, nova); 
-            adicionarLista(playlists, nova); 
-        }
-
-
-    }
-    fclose(file);
-    return playlists;
-}
 
 
 

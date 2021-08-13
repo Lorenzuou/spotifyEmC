@@ -3,7 +3,6 @@
 
 #include "util.h"
 #include "pessoa.h"
-#include "musica.h"
 #include "lista.h"
 
 int main()
@@ -24,13 +23,13 @@ int main()
 
     // fclose(fp);
 
-    // lendo os dois primeiros arquivos  do programa.
+    // lendo os dois primeiros arquivos do programa.
 
     Lista *pessoas = lerAmizades("data/Entrada/amizade.txt");
 
-    Lista * playlists = lerPlaylists(pessoas,"data/Entrada/playlists.txt");
-
+    lerPlaylists(pessoas, "data/Entrada/playlists.txt");
     
+    imprimirLista(pessoas);
 
 
 
