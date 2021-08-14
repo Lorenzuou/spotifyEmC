@@ -47,8 +47,9 @@ void imprimirPlaylist(Playlist *playlist)
     imprimirLista(playlist->musicas);
 }
 
-void buscarPlaylist(Playlist *playlist)
+void buscarPlaylist(Playlist *playlist, char *nome, int *resultado)
 {
+    *resultado = strcmp(playlist->nome, nome);
 }
 
 void adicionarMusica(Playlist *playlist, Musica *musica)
@@ -117,4 +118,8 @@ void lerMusicas(Playlist *playlist)
         Musica *musica = novaMusica(autor, nome);
         adicionarMusica(playlist, musica);
     }
+}
+
+Lista * getMusicas(Playlist * playlist){ 
+    return playlist->musicas; 
 }

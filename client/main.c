@@ -28,8 +28,14 @@ int main()
     Lista *pessoas = lerAmizades("data/Entrada/amizade.txt");
 
     lerPlaylists(pessoas, "data/Entrada/playlists.txt");
+
+
     
     imprimirLista(pessoas);
+
+
+
+    criarPlaylistsPorAutoria(pessoas); 
 
 
 

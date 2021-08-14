@@ -19,11 +19,13 @@ void imprimirPlaylist(Playlist *playlist);
 
 void destruirPlaylist(Playlist *playlist);
 
-void buscarPlaylist(Playlist *playlist);
+void buscarPlaylist(Playlist *playlist, char *nome, int *resultado); 
 
 void adicionarMusica(Playlist *playlist, Musica *musica);
 
 void lerPlaylists(Lista *pessoas, char *path); 
+
+Lista * getMusicas(Playlist * playlist); 
 
 // ----
 

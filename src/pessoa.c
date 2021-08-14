@@ -1,5 +1,6 @@
 #include "pessoa.h"
 #include "util.h"
+#include "playlist.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,10 +32,10 @@ void destruirPessoa(Pessoa *pessoa)
     free(pessoa);
 }
 
-void destruirAmizades(Pessoa * pessoa){ 
+void destruirAmizades(Pessoa *pessoa)
+{
 
     free(pessoa->amizades);
-
 }
 
 void imprimirPessoa(Pessoa *pessoa)
@@ -111,7 +112,34 @@ Lista *lerAmizades(char *path)
     return pessoas;
 }
 
+void criarPlaylistsPorAutoria(Lista *pessoas)
+{
+    int posicao = 0;
+    Pessoa *pessoa;
 
+    while (pessoa = getCelula(pessoas, posicao))
+    {
+        Playlist *playlist;
+        int j = 0;
 
+        while (playlist = getCelula(pessoa->playlists, j))
+        {
 
+            Musica *musica;
+            int k = 0;
+            while(musica = getCelula(getMusicas(playlist), k)){
+                
+                printf("dasds");
 
+                // COMPARAR AS MUSICAS AQUI E CRIAR AS PLAYLISTS
+
+                k++;
+            }
+            
+            
+            j++;
+        }
+
+        posicao++;
+    }
+}

@@ -22,4 +22,6 @@ void adicionarPlaylist(Pessoa *pessoa, Playlist *playlist);
 
 Lista *lerAmizades(char *path); 
 
+void criarPlaylistsPorAutor(Lista * pessoas); 
+
 #endif
