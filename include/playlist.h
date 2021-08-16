@@ -11,7 +11,7 @@ typedef struct playlist Playlist;
 
 char *getNomePlaylist(Playlist *playlist);
 
-Playlist *novaPlaylist(char *nome);
+Playlist *novaPlaylist(char *nome, int lerMusicasArquivo);
 
 Lista *novaListaPlaylist();
 
@@ -23,13 +23,7 @@ void buscarPlaylist(Playlist *playlist, char *nome, int *resultado);
 
 void adicionarMusica(Playlist *playlist, Musica *musica);
 
-void lerPlaylists(Lista *pessoas, char *path); 
-
-Lista * getMusicas(Playlist * playlist); 
-
-// ----
-
-
+Lista *getMusicas(Playlist * playlist); 
 
 void lerMusicas(Playlist *playlist);
 

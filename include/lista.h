@@ -9,7 +9,7 @@ typedef void (*freeData)(void *);
 
 typedef void (*printData)(void *);
 
-typedef void (*searchData)(void *, void *, int*);
+typedef void (*searchData)(void *, void *, int *);
 
 /**
 *@brief cria uma nova lista genérica
@@ -26,6 +26,12 @@ Lista *novaLista(int tamConteudo, freeData freeFunc, printData printFunc, search
 * @param posicao posicao do conteudo na lista
 * @return ponteiro de void do tipo de conteudo da lista
 */
+void *getConteudoByPosicao(Lista *lista, int posicao);
+
+void *getConteudoByCelula(Celula *celula);
+
+void *getCelulaAnterior(Celula *celula);
+
 void *getCelula(Lista *lista, int posicao);
 
 /**
@@ -44,7 +50,7 @@ void *buscarLista(Lista *lista, void *conteudo);
 *@brief remove o primeiro elemento da lista 
 * @param lista Lista do conteudo
 */
-void removerPrimeiroLista(Lista *lista); 
+void removerPrimeiroLista(Lista *lista);
 
 /**
 *@brief Usa a funcao de imporimir o conteudo da lista
@@ -65,4 +71,4 @@ void adicionarLista(Lista *lista, void *conteudo);
 * @param listaDestino Lista de destino do conteudo
 * @param posicao posicao do conteudo na lista de origem a ser movido
 */
-void moverLista(Lista *listaOrigem, Lista *listaDestino, int posicao);
+void moverLista(Lista *listaOrigem, Lista *listaDestino, Celula *atual);

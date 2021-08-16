@@ -8,9 +8,11 @@ typedef struct pessoa Pessoa;
 
 Pessoa *novaPessoa(char *nome);
 
+Lista *novaListaPessoa(void * freeFunction,void * printFunction, void * searchFunction);
+
 void destruirPessoa(Pessoa *pessoa); 
 
-void destruirAmizades(Pessoa * pessoa); 
+void destruirAmizade(Pessoa * pessoa); 
 
 void imprimirPessoa(Pessoa *pessoa);
 
@@ -22,6 +24,10 @@ void adicionarPlaylist(Pessoa *pessoa, Playlist *playlist);
 
 Lista *lerAmizades(char *path); 
 
-void criarPlaylistsPorAutor(Lista * pessoas); 
+void lerPlaylists(Lista *pessoas, char *path); 
+
+void manipularDados(Lista *pessoas);
+
+void criarPlaylistsPorAutoria(Pessoa *pessoa);
 
 #endif

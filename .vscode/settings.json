@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "playlist.h": "c",
+        "stdio.h": "c"
+    }
+}

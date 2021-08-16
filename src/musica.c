@@ -1,13 +1,21 @@
 #include "musica.h"
 #include "lista.h"
 
-
-
 struct musica
 {
     char *autor;
     char *nome;
 };
+
+char *getAutorMusica(Musica *musica)
+{
+    return musica->autor;
+}
+
+char *getNomeMusica(Musica *musica)
+{
+    return musica->nome;
+}
 
 Musica *novaMusica(char *autor, char *nome)
 {

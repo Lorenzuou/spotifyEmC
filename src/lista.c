@@ -4,6 +4,7 @@
 struct celula
 {
 	void *conteudo;
+	struct Celula *ant;
 	struct Celula *prox;
 };
 
@@ -35,8 +36,6 @@ void destruirLista(Lista *lista)
 {
 	while (lista->primeiraCelula)
 	{
-		//printf("Destroying %d\n", mostraPrimeiro(lista));
-
 		Celula *celula = lista->primeiraCelula;
 		lista->primeiraCelula = celula->prox;
 
@@ -63,7 +62,7 @@ void *buscarLista(Lista *lista, void *conteudo)
 
 		atual = atual->prox;
 	}
-	
+
 	return atual ? atual->conteudo : NULL;
 }
 
@@ -99,6 +98,7 @@ void adicionarLista(Lista *lista, void *conteudo)
 	//troca o apontador da ultima celula de NULL para a celula nova
 	if (lista->ultimaCelula)
 	{
+		novaCelula->ant = lista->ultimaCelula;
 		lista->ultimaCelula->prox = novaCelula;
 	}
 
@@ -111,6 +111,7 @@ void adicionarLista(Lista *lista, void *conteudo)
 		lista->primeiraCelula = novaCelula;
 	}
 }
+
 void *removerItemLista(Lista *lista, int indice)
 {
 	int cont = 0;
@@ -148,42 +149,29 @@ void *removerItemLista(Lista *lista, int indice)
 	return (mat);
 }
 
-void moverLista(Lista *listaOrigem, Lista *listaDestino, int opcao)
+void moverLista(Lista *listaOrigem, Lista *listaDestino, Celula *atual)
 {
-	Celula *atual = listaOrigem->primeiraCelula;
-	Celula *anterior = NULL;
-
-	//percorrendo a lista até a posicao anterior à informada
-	//ex: posicao = 5; percorre ate 4
-	for (int i = 1; i < opcao; i++)
-	{
-		//definindo o anterior
-		if (i == opcao - 1)
-		{
-			anterior = atual;
-		}
-
-		//definindo a celula atual
-		atual = atual->prox;
-	}
-
 	//se houver celula anterior, ou seja, caso primeiro item nao seja escolhido
-	if (anterior)
+	if (atual->ant)
 	{
 		//atribui a proxima celula da celula atual no ponteiro de proximo celula da celula anterior
 		//ex: 4-5-6 => 4-6
+		Celula *anterior = atual->ant;
 		anterior->prox = atual->prox;
 
 		//tratamento para quando o ultimo da lista for escolhido
 		if (!atual->prox)
 		{
-			listaOrigem->ultimaCelula = anterior;
+			listaOrigem->ultimaCelula = atual->ant;
 		}
 	}
 	else
 	{
 		//tratamento para quando o primeiro da lista for escolhido
 		listaOrigem->primeiraCelula = atual->prox;
+
+		if (listaOrigem->primeiraCelula)
+			listaOrigem->primeiraCelula->ant = NULL;
 	}
 
 	//definindo o ponteiro da celula escolhida como NULL, pois será adicionado no final da lista de destino
@@ -193,6 +181,7 @@ void moverLista(Lista *listaOrigem, Lista *listaDestino, int opcao)
 	if (listaDestino->ultimaCelula)
 	{
 		listaDestino->ultimaCelula->prox = atual;
+		atual->ant = listaDestino->ultimaCelula;
 	}
 
 	// movimenta a ultima celula da lista
@@ -205,10 +194,9 @@ void moverLista(Lista *listaOrigem, Lista *listaDestino, int opcao)
 	}
 }
 
-void *getCelula(Lista *lista, int posicao)
+void *getConteudoByPosicao(Lista *lista, int posicao)
 {
 	Celula *atual = lista->primeiraCelula;
-	Celula *anterior = NULL;
 
 	for (int i = 0; i < posicao; i++)
 	{
@@ -216,4 +204,32 @@ void *getCelula(Lista *lista, int posicao)
 	}
 
 	return atual ? atual->conteudo : NULL;
+}
+
+void *getConteudoByCelula(Celula *celula)
+{
+	if (celula)
+		return celula->conteudo;
+
+	return NULL;
+}
+
+void *getCelulaAnterior(Celula *celula)
+{
+	if (celula)
+		return celula->ant;
+
+	return NULL;
+}
+
+void *getCelula(Lista *lista, int posicao)
+{
+	Celula *atual = lista->primeiraCelula;
+
+	for (int i = 0; i < posicao; i++)
+	{
+		atual = atual->prox;
+	}
+
+	return atual;
 }

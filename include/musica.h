@@ -4,6 +4,10 @@
 #include "lista.h"
 typedef struct musica Musica;
 
+char *getAutorMusica(Musica *musica);
+
+char *getNomeMusica(Musica *musica);
+
 Musica *novaMusica(char *autor, char *nome); 
 
 void imprimirMusica(Musica *musica); 

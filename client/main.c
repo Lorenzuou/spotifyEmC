@@ -29,20 +29,19 @@ int main()
 
     lerPlaylists(pessoas, "data/Entrada/playlists.txt");
 
+    imprimirLista(pessoas);
 
+    printf("---------------------------\n");    
+    printf("---------------------------\n");    
+    printf("--------REFATORANDO--------\n");    
+    printf("---------------------------\n");    
+    printf("---------------------------\n\n\n");    
+
+    manipularDados(pessoas); 
     
     imprimirLista(pessoas);
 
-
-
-    criarPlaylistsPorAutoria(pessoas); 
-
-
-
-    destruirLista(pessoas);
-    //destruirLista(playlists); talvez nao precise dar free nessa lista pq as playlists sao desalocadas no free anterior
-
-
+    //destruirLista(pessoas);
 
     return 0;
 }
