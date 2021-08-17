@@ -20,6 +20,11 @@ Pessoa *novaPessoa(char *nome)
     pessoa->amizades = novaListaPessoa(destruirAmizade, imprimirAmizade, buscarPessoa);
     pessoa->playlists = novaListaPlaylist();
 
+    char path[100] = "data/Saida/";
+    strcat(path, pessoa->nome);
+
+    mkdir(path);
+
     return pessoa;
 }
 
@@ -157,8 +162,8 @@ void lerPlaylists(Lista *pessoas, char *path)
 void manipularDados(Lista *pessoas)
 {
     int i = 0;
-    Pessoa * pessoa;
-    
+    Pessoa *pessoa;
+
     while (pessoa = getConteudoByPosicao(pessoas, i))
     {
         criarPlaylistsPorAutoria(pessoa);
@@ -178,7 +183,6 @@ void criarPlaylistsPorAutoria(Pessoa *pessoa)
     // printf("%s\n", pessoa->nome);
     // printf("---------------");
 
-
     while (playlist = getConteudoByPosicao(pessoa->playlists, j))
     {
         int k = 0;
@@ -197,6 +201,16 @@ void criarPlaylistsPorAutoria(Pessoa *pessoa)
             char *autorMusica = getAutorMusica(musica);
 
             Playlist *playlistAutor = buscarLista(playlistsRefatoradas, autorMusica);
+
+            char path[100] = "data/Saida/";
+            strcat(path, pessoa->nome);
+            strcat(path, "/");
+            strcat(path, autorMusica);
+            strcat(path, ".txt");
+
+            printf("\n--%s", path);
+          
+
             if (playlistAutor)
             {
                 moverLista(musicas, getMusicas(playlistAutor), celula);
@@ -204,14 +218,16 @@ void criarPlaylistsPorAutoria(Pessoa *pessoa)
             else
             {
                 playlistAutor = novaPlaylist(autorMusica, 0);
+                FILE *fp = fopen(path, "w");
+                fclose(fp);
                 adicionarLista(playlistsRefatoradas, playlistAutor);
-
                 moverLista(musicas, getMusicas(playlistAutor), celula);
             }
-
             k++;
+            FILE *fp = fopen(path, "a");
+            fprintf(fp,"%s - %s\n",autorMusica, getNomeMusica(musica));
+            fclose(fp);
         }
-
         j++;
     }
 
