@@ -31,17 +31,16 @@ int main()
 
     imprimirLista(pessoas);
 
-    printf("---------------------------\n");    
-    printf("---------------------------\n");    
-    printf("--------REFATORANDO--------\n");    
-    printf("---------------------------\n");    
-    printf("---------------------------\n\n\n");    
+    printf("---------------------------\n");
+    printf("---------------------------\n");
+    printf("--------REFATORANDO--------\n");
+    printf("---------------------------\n");
+    printf("---------------------------\n\n\n");
 
-    manipularDados(pessoas); 
-    
+    manipularDados(pessoas);
+
     imprimirLista(pessoas);
 
-    //destruirLista(pessoas);
-
+    destruirLista(pessoas);
     return 0;
 }

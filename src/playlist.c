@@ -66,7 +66,7 @@ void adicionarMusica(Playlist *playlist, Musica *musica)
     adicionarLista(playlist->musicas, musica);
 }
 
-// ----
+// ----------------------------
 
 void lerMusicas(Playlist *playlist)
 {
@@ -91,4 +91,5 @@ void lerMusicas(Playlist *playlist)
         Musica *musica = novaMusica(autor, nome);
         adicionarMusica(playlist, musica);
     }
+    fclose(file);
 }
