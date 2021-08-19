@@ -14,7 +14,7 @@ void imprimirMusica(Musica *musica);
 
 void destruirMusica(Musica *musica);
 
-void buscarMusica(Musica *musica);
+void buscarMusica(Musica *musica1, Musica *musica2, int *resultado);
 
 Lista  *novaListaMusica(); 
 

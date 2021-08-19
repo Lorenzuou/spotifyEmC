@@ -44,7 +44,7 @@ Lista *novaListaMusica()
     return novaLista(sizeof(Musica), destruirMusica, imprimirMusica, buscarMusica);
 }
 
-void buscarMusica(Musica *musica)
+void buscarMusica(Musica *musica1, Musica *musica2, int *resultado)
 {
-
+    *resultado = strcmp(musica1->autor, musica2->autor) + strcmp(musica1->nome, musica2->nome);
 }

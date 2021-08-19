@@ -164,11 +164,11 @@ int qtdSimilaridades(Playlist *pl1, Playlist *pl2)
         while (m2 = getConteudoByPosicao(pl2, j++))
         {
             // printf("HU3%s\n",getNomeMusica(m1));
-    //         if (!strcmp(getNomeMusica(m1), getNomeMusica(m2)))
-    //         {
-                
-    //             qtd++; 
-    //         }
+            //         if (!strcmp(getNomeMusica(m1), getNomeMusica(m2)))
+            //         {
+
+            //             qtd++;
+            //         }
         }
     }
 
@@ -181,23 +181,39 @@ void analisarSimilaridades(Pessoa *pessoa)
     Pessoa *amigo;
     while (amigo = getConteudoByPosicao(pessoa->amizades, j++))
     {
-        printf("%s\n", amigo->nome);
         Playlist *playlist;
         int k = 0;
+        int similaridades = 0;
         while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
         {
-            Playlist *playlistAmigo;
-            int m = 0;
-
-            while (playlistAmigo = getConteudoByPosicao(amigo->playlists, m++))
+            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
+            if (playlistAmigo)
             {
-                if (!strcmp(getNomePlaylist(playlistAmigo), getNomePlaylist(playlist)))
-                { // se strcmp == 0, itera as musicas similares da playlist
+                printf("%s e %s - %s\n\n", pessoa->nome, amigo->nome, getNomePlaylist(playlistAmigo));
 
-                    int qtd = qtdSimilaridades(playlistAmigo, playlist);
+                printf("Musicas de %s\n", pessoa->nome);
+                imprimirLista(getMusicas(playlist));
+
+                printf("\nMusicas de %s\n", amigo->nome);
+                imprimirLista(getMusicas(playlistAmigo));
+
+                Musica *musica;
+                int m = 0;
+                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
+                {
+                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
+                    if (musicaAmigo)
+                    {
+                        similaridades++;
+                        printf("\nPRESENTE NOS DOIS - %s", getNomeMusica(musicaAmigo));
+                    }
                 }
+                printf("\n------------------------\n\n");
             }
         }
+
+        //if (similaridades > 0)
+        printf("\n<<<SIMILARIDADES entre %s e %s: - %d>>>\n", pessoa->nome, amigo->nome, similaridades);
     }
 }
 
@@ -209,8 +225,16 @@ void manipularDados(Lista *pessoas)
     while (pessoa = getConteudoByPosicao(pessoas, i))
     {
         criarPlaylistsPorAutoria(pessoa);
-        //analisar similaridades
 
+        //analisarSimilaridades(pessoa);
+
+        i++;
+    }
+
+    i = 0;
+
+    while (pessoa = getConteudoByPosicao(pessoas, i))
+    {
         analisarSimilaridades(pessoa);
 
         i++;
