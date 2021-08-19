@@ -152,15 +152,28 @@ void lerPlaylists(Lista *pessoas, char *path)
     fclose(file);
 }
 
-
-int qtdSimilaridades(Playlist* pl1, Playlist* pl2){ 
-    int qtd = 0; 
-
-
+int qtdSimilaridades(Playlist *pl1, Playlist *pl2)
+{
+    int qtd = 0;
+    Musica *m1;
+    int i = 0;
+    while (m1 = getConteudoByPosicao(pl1, i++))
+    {
+        Musica *m2;
+        int j = 0;
+        while (m2 = getConteudoByPosicao(pl2, j++))
+        {
+            // printf("HU3%s\n",getNomeMusica(m1));
+    //         if (!strcmp(getNomeMusica(m1), getNomeMusica(m2)))
+    //         {
+                
+    //             qtd++; 
+    //         }
+        }
+    }
 
     return qtd;
-
- }
+}
 
 void analisarSimilaridades(Pessoa *pessoa)
 {
@@ -178,16 +191,11 @@ void analisarSimilaridades(Pessoa *pessoa)
 
             while (playlistAmigo = getConteudoByPosicao(amigo->playlists, m++))
             {
-                if(!strcmp(getNomePlaylist(playlistAmigo),getNomePlaylist(playlist))){ // se strcmp == 0, itera as musicas similares da playlist
+                if (!strcmp(getNomePlaylist(playlistAmigo), getNomePlaylist(playlist)))
+                { // se strcmp == 0, itera as musicas similares da playlist
 
-                
-                int qtd = qtdSimilaridades(playlistAmigo,playlist); 
-
-
-
-                   
+                    int qtd = qtdSimilaridades(playlistAmigo, playlist);
                 }
-
             }
         }
     }

@@ -15,6 +15,8 @@ Playlist *novaPlaylist(char *nome, int lerMusicasArquivo);
 
 Lista *novaListaPlaylist();
 
+Musica * getNMusicaPlaylist(Playlist *playlist, int n); 
+
 void imprimirPlaylist(Playlist *playlist); 
 
 void destruirPlaylist(Playlist *playlist);

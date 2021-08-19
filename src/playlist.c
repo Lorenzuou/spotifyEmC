@@ -16,6 +16,9 @@ char *getNomePlaylist(Playlist *playlist)
     return playlist->nome;
 }
 
+
+
+
 Lista *getMusicas(Playlist *playlist)
 {
     return playlist->musicas;
