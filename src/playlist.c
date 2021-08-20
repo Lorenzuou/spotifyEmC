@@ -51,7 +51,7 @@ void destruirPlaylist(Playlist *playlist)
 
 void imprimirPlaylist(Playlist *playlist)
 {
-    //printf("  PLAYLIST: %s\n", playlist->nome);
+    printf("  PLAYLIST: %s\n", playlist->nome);
 
     if (playlist->musicas)
         imprimirLista(playlist->musicas);
