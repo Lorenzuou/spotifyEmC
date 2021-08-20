@@ -189,26 +189,30 @@ void analisarSimilaridades(Pessoa *pessoa)
             Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
             if (playlistAmigo)
             {
-                printf("%s e %s - %s\n\n", pessoa->nome, amigo->nome, getNomePlaylist(playlistAmigo));
+                printf("\n\n%s e %s - %s\n", pessoa->nome, amigo->nome, getNomePlaylist(playlistAmigo));
 
-                printf("Musicas de %s\n", pessoa->nome);
-                imprimirLista(getMusicas(playlist));
+                //  printf("Musicas de %s\n", pessoa->nome);
+                //  imprimirLista(getMusicas(playlist));
 
-                printf("\nMusicas de %s\n", amigo->nome);
-                imprimirLista(getMusicas(playlistAmigo));
+                // printf("\nMusicas de %s\n", amigo->nome);
+                // imprimirLista(getMusicas(playlistAmigo));
 
                 Musica *musica;
                 int m = 0;
                 while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
                 {
+                    printf("\nTentativa %i\n", m);
                     Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
+                    
                     if (musicaAmigo)
                     {
+                       // printf("Comparacao %i \n", );
                         similaridades++;
-                        printf("\nPRESENTE NOS DOIS - %s", getNomeMusica(musicaAmigo));
+                        // printf("\nPRESENTE NOS DOIS - %s", getNomeMusica(musicaAmigo));
+                    
                     }
                 }
-                printf("\n------------------------\n\n");
+                //printf("\n------------------------\n\n");
             }
         }
 

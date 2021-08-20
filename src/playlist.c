@@ -51,7 +51,7 @@ void destruirPlaylist(Playlist *playlist)
 
 void imprimirPlaylist(Playlist *playlist)
 {
-    printf("  PLAYLIST: %s\n", playlist->nome);
+    //printf("  PLAYLIST: %s\n", playlist->nome);
 
     if (playlist->musicas)
         imprimirLista(playlist->musicas);
@@ -90,6 +90,9 @@ void lerMusicas(Playlist *playlist)
         sscanf(linha, "%[^-] - %[^\n]", autor, nome);
 
         autor[strlen(autor) - 1] = '\0';
+
+        removerQuebraLinha(nome);
+
 
         Musica *musica = novaMusica(autor, nome);
         adicionarMusica(playlist, musica);
