@@ -89,6 +89,8 @@ void lerMusicas(Playlist *playlist)
         // lendo e separando autor e música
         sscanf(linha, "%[^-] - %[^\n]", autor, nome);
 
+
+
         autor[strlen(autor) - 1] = '\0';
 
         removerQuebraLinha(nome);

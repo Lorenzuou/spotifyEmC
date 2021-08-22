@@ -100,6 +100,8 @@ Lista *lerAmizades(char *path)
         }
         else
         {
+            imprimirLista(pessoas);
+
             //adiciona a as amizades nas pessoas
             char *nome1 = strtok(linha, ";");
             Pessoa *pessoa1 = buscarLista(pessoas, nome1);
@@ -108,6 +110,9 @@ Lista *lerAmizades(char *path)
             removerQuebraLinha(nome2);
 
             Pessoa *pessoa2 = buscarLista(pessoas, nome2);
+
+            printf("essa eh a pessoa 2:\n");
+            imprimirPessoa(pessoa2);
 
             adicionarLista(pessoa1->amizades, pessoa2);
             adicionarLista(pessoa2->amizades, pessoa1);
@@ -208,7 +213,7 @@ void analisarSimilaridades(Pessoa *pessoa)
                     {
                        // printf("Comparacao %i \n", );
                         similaridades++;
-                        // printf("\nPRESENTE NOS DOIS - %s", getNomeMusica(musicaAmigo));
+                        printf("\nPRESENTE NOS DOIS - %s", getNomeMusica(musicaAmigo));
                     
                     }
                 }
