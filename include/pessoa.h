@@ -61,6 +61,13 @@ void buscarPessoa(Pessoa *pessoa, char *nome, int *resultado);
 */
 void adicionarPlaylist(Pessoa *pessoa, Playlist *playlist);
 
+
+
+
+void adicionarPlaylistArquivo(int qtdPlaylists, Pessoa *pessoa);
+
+
+
 /**
 *@brief Lê todas as pessoas presentes no arquivo especificado pelo parâmetro e também a lista de amizades, alocando na lista de amizades de cada pessoa quem são seus respectivos amigos. Ao final, retorna uma Lista de Pessoas correspondente a todas as pessoas do arquivo. 
 * @param path caminho do arquivo a ser lido

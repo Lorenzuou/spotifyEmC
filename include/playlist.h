@@ -71,6 +71,8 @@ void adicionarMusica(Playlist *playlist, Musica *musica);
 */
 Lista *getMusicas(Playlist * playlist); 
 
+
+
 /**
 *@brief Lê a lista de músicas que se encontra dentro do diretório data/Entrada no arquivo que estiver com o nome da playlist especificada 
 * @param playlist ponteiro de struct de playlist que será lida

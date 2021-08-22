@@ -1,0 +1,4 @@
+Joao,10,acoustic-hits.txt,nacional.txt,heavymetal.txt
+Maria,6,sertanejo.txt,metal.txt
+Pedro,6,eletronica.txt
+Alice,10,sert.txt,eletrica.txt

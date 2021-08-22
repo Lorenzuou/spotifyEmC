@@ -69,7 +69,8 @@ void adicionarMusica(Playlist *playlist, Musica *musica)
     adicionarLista(playlist->musicas, musica);
 }
 
-// ----------------------------
+
+
 
 void lerMusicas(Playlist *playlist)
 {
