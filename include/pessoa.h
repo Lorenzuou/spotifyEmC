@@ -97,4 +97,8 @@ void manipularDados(Lista *pessoas);
 */
 void criarPlaylistsPorAutoria(Pessoa *pessoa);
 
+
+void analisarSimilaridades(Pessoa *pessoa, Pessoa *amigo); 
+
+
 #endif

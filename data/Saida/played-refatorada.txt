@@ -1,4 +1,4 @@
-Joao,10,acoustic-hits.txt,nacional.txt,heavymetal.txt
-Maria,6,sertanejo.txt,metal.txt
-Pedro,6,eletronica.txt
-Alice,10,sert.txt,eletrica.txt
+Joao,10,Ed Sheeran.txt,MAGIC!.txt,Beyoncé.txt,Alicia Keys.txt,Jason Mraz.txt,ANAVITÓRIA.txt,Projota.txt,Melim.txt,Vitor Kley.txt,Metallica.txt
+Maria,6,Matheus & Kauan.txt,Luan Santana.txt,Marília Mendonça.txt,Jorge & Mateus.txt,Felipe Araújo.txt,Metallica.txt
+Pedro,6,Alok.txt,Bhaskar.txt,Martin Garrix.txt,Vintage Culture.txt,Zedd.txt,Dubdogz.txt
+Alice,10,Felipe Araújo.txt,João Gustavo e Murilo.txt,Diego & Victor Hugo.txt,Zé Neto & Cristiano.txt,Zedd.txt,Dubdogz.txt,Autograf.txt,Alok.txt,Bhaskar.txt,Martin Garrix.txt
