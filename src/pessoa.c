@@ -181,7 +181,35 @@ int qtdSimilaridades(Playlist *pl1, Playlist *pl2)
 }
 
 
+void mergePlaylistsPessoas(Pessoa * pessoa){ 
 
+  int j = 0;
+    Pessoa *amigo;
+      
+    while(amigo = getConteudoByPosicao(pessoa->amizades,j++)){
+      
+        Playlist *playlist;
+        int k = 0;
+        while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
+        {
+            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
+            if (playlistAmigo)
+            {
+                Musica *musica;
+                int m = 0;
+                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
+                {
+                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
+                    if (!musicaAmigo)
+                    {
+                        Musica *copiaMusica  = novaMusica(getAutorMusica(musica),getNomeMusica(musica)); 
+                        adicionarMusica(playlistAmigo, copiaMusica);           
+                }
+            }
+        }
+}
+    }
+} 
 
 void analisarSimilaridades(Pessoa *pessoa, Pessoa *pessoa2)
 {
@@ -259,6 +287,8 @@ void manipularDados(Lista *pessoas)
             analisarSimilaridades(pessoa,amigo);
             
         }
+
+        mergePlaylistsPessoas(pessoa); 
 
 
         i++;

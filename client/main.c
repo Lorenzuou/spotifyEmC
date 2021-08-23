@@ -39,7 +39,7 @@ int main()
 
     manipularDados(pessoas);
 
-    //imprimirLista(pessoas);
+    imprimirLista(pessoas);
 
     destruirLista(pessoas);
     return 0;
