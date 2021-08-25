@@ -1,7 +1,8 @@
-#include "playlist.h"
-#include "util.h"
 #include <string.h>
 #include <stdlib.h>
+
+#include "playlist.h"
+#include "util.h"
 
 struct playlist
 {
@@ -9,15 +10,10 @@ struct playlist
     Lista *musicas;
 };
 
-// ----
-
 char *getNomePlaylist(Playlist *playlist)
 {
     return playlist->nome;
 }
-
-
-
 
 Lista *getMusicas(Playlist *playlist)
 {
@@ -46,6 +42,7 @@ void destruirPlaylist(Playlist *playlist)
 {
     free(playlist->nome);
     destruirLista(playlist->musicas);
+    
     free(playlist);
 }
 
@@ -69,9 +66,6 @@ void adicionarMusica(Playlist *playlist, Musica *musica)
     adicionarLista(playlist->musicas, musica);
 }
 
-
-
-
 void lerMusicas(Playlist *playlist)
 {
     char *fileName = getNomePlaylist(playlist);
@@ -90,12 +84,8 @@ void lerMusicas(Playlist *playlist)
         // lendo e separando autor e música
         sscanf(linha, "%[^-] - %[^\n]", autor, nome);
 
-
-
         autor[strlen(autor) - 1] = '\0';
-
         removerQuebraLinha(nome);
-
 
         Musica *musica = novaMusica(autor, nome);
         adicionarMusica(playlist, musica);

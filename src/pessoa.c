@@ -1,9 +1,11 @@
-#include "pessoa.h"
-#include "util.h"
-#include "playlist.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+#include "pessoa.h"
+#include "util.h"
+#include "playlist.h"
 
 struct pessoa
 {
@@ -20,6 +22,7 @@ Pessoa *novaPessoa(char *nome)
     pessoa->amizades = novaListaPessoa(NULL, imprimirAmizade, buscarPessoa);
     pessoa->playlists = novaListaPlaylist();
 
+    //criando pasta para a guardar as playlists apos manipulacao
     char path[100] = "data/Saida/";
     strcat(path, pessoa->nome);
     mkdir(path);
@@ -35,7 +38,7 @@ Lista *novaListaPessoa(void *freeFunction, void *printFunction, void *searchFunc
 void destruirPessoa(Pessoa *pessoa)
 {
     free(pessoa->nome);
-    destruirLista(pessoa->amizades); // Problemas em dar free nas amizades (double free) faz sentido pq essa funcao vai ser chamada para todos os usuarios do programa
+    destruirLista(pessoa->amizades);
     destruirLista(pessoa->playlists);
 
     free(pessoa);
@@ -45,13 +48,17 @@ void imprimirPessoa(Pessoa *pessoa)
 {
     printf("PESSOA: %s\n", pessoa->nome);
 
+    printf("\n");
+
     if (pessoa->amizades)
         imprimirLista(pessoa->amizades);
 
-    if (pessoa->playlists)
-        ;
-    imprimirLista(pessoa->playlists);
     printf("\n");
+
+    if (pessoa->playlists)
+        imprimirLista(pessoa->playlists);
+
+    printf("------\n\n");
 }
 
 void imprimirAmizade(Pessoa *pessoa)
@@ -75,8 +82,8 @@ Lista *lerAmizades(char *path)
 
     Lista *pessoas = novaListaPessoa(destruirPessoa, imprimirPessoa, buscarPessoa);
 
+    //criando as pessoas e setando as amizades de acordo com o arquivo
     FILE *file = fopen(path, "r");
-
     char linha[1024];
 
     while (fgets(linha, 1024, file))
@@ -100,9 +107,7 @@ Lista *lerAmizades(char *path)
         }
         else
         {
-            imprimirLista(pessoas);
-
-            //adiciona a as amizades nas pessoas
+            //adiciona as amizades nas pessoas
             char *nome1 = strtok(linha, ";");
             Pessoa *pessoa1 = buscarLista(pessoas, nome1);
 
@@ -110,9 +115,6 @@ Lista *lerAmizades(char *path)
             removerQuebraLinha(nome2);
 
             Pessoa *pessoa2 = buscarLista(pessoas, nome2);
-
-            printf("essa eh a pessoa 2:\n");
-            imprimirPessoa(pessoa2);
 
             adicionarLista(pessoa1->amizades, pessoa2);
             adicionarLista(pessoa2->amizades, pessoa1);
@@ -130,9 +132,9 @@ void lerPlaylists(Lista *pessoas, char *path)
     int i = 0;
 
     FILE *file = fopen(path, "r");
-
     char linha[1024];
 
+    //criando as playlists e setando nas pessoas de acordo com o arquivo
     while (fgets(linha, 1024, file))
     {
         char *nome = strtok(linha, ";");
@@ -148,8 +150,8 @@ void lerPlaylists(Lista *pessoas, char *path)
             {
                 removerQuebraLinha(nomePlaylist);
             }
-            Playlist *playlist = novaPlaylist(nomePlaylist, 1);
 
+            Playlist *playlist = novaPlaylist(nomePlaylist, 1);
             adicionarPlaylist(pessoa, playlist);
         }
     }
@@ -157,142 +159,138 @@ void lerPlaylists(Lista *pessoas, char *path)
     fclose(file);
 }
 
-int qtdSimilaridades(Playlist *pl1, Playlist *pl2)
-{
-    int qtd = 0;
-    Musica *m1;
-    int i = 0;
-    while (m1 = getConteudoByPosicao(pl1, i++))
-    {
-        Musica *m2;
-        int j = 0;
-        while (m2 = getConteudoByPosicao(pl2, j++))
-        {
-            // printf("HU3%s\n",getNomeMusica(m1));
-            //         if (!strcmp(getNomeMusica(m1), getNomeMusica(m2)))
-            //         {
-
-            //             qtd++;
-            //         }
-        }
-    }
-
-    return qtd;
-}
-
-
-void mergePlaylistsPessoas(Pessoa * pessoa){ 
-
-  int j = 0;
-    Pessoa *amigo;
-      
-    while(amigo = getConteudoByPosicao(pessoa->amizades,j++)){
-      
-        Playlist *playlist;
-        int k = 0;
-        while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
-        {
-            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
-            if (playlistAmigo)
-            {
-                Musica *musica;
-                int m = 0;
-                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
-                {
-                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
-                    if (!musicaAmigo)
-                    {
-                        Musica *copiaMusica  = novaMusica(getAutorMusica(musica),getNomeMusica(musica)); 
-                        adicionarMusica(playlistAmigo, copiaMusica);           
-                }
-            }
-        }
-}
-    }
-} 
-
-void analisarSimilaridades(Pessoa *pessoa, Pessoa *pessoa2)
-{
-    int j = 0;
-    Pessoa *amigo;
-    
-    FILE *fp = fopen("data/Saida/similaridades.txt","a");
-    
-    amigo = buscarLista(pessoa->amizades, pessoa2->nome); 
-  
-    if(amigo){ 
-        printf("NOME AMIGO %s",amigo->nome);
-        Playlist *playlist;
-        int k = 0;
-        int similaridades = 0;
-        while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
-        {
-            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
-            if (playlistAmigo)
-            {
-
-            
-
-                Musica *musica;
-                int m = 0;
-                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
-                {
-                  
-                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
-
-                    if (musicaAmigo)
-                    {
-                        // printf("Comparacao %i \n", );
-                        similaridades++;
-                
-                    }
-                }
-                //printf("\n------------------------\n\n");
-                
-            }
-
-        }
-        fprintf(fp,"%s;%s;%i",pessoa->nome,amigo->nome,similaridades); 
-
-      
-        }
-    
-}
-
 void manipularDados(Lista *pessoas)
 {
     int i = 0;
     Pessoa *pessoa;
 
-    FILE *inicioPlayedRefatorada = fopen("data/Saida/played-refatorada.txt", "w"); // necessário para limpar o conteúdo que estiver dentro de played-refatorada.txt
+    //necessário para limpar o conteúdo que estiver dentro de played-refatorada.txt
+    FILE *inicioPlayedRefatorada = fopen("data/Saida/played-refatorada.txt", "w");
     fclose(inicioPlayedRefatorada);
 
+    //percorrendo lista de pessoas e gerando as playlists de acordo com o nome do cantor/banda
     while (pessoa = getConteudoByPosicao(pessoas, i))
     {
-      
         criarPlaylistsPorAutoria(pessoa);
+        i++;
+    }
+
+    //necessário para limpar o conteúdo que estiver dentro de similaridades.txt
+    FILE *fp = fopen("data/Saida/similaridades.txt", "w");
+    fclose(fp);
+
+    //percorrendo lista de pessoas analisando as similaridades, e adicionando as musicas que estao em uma amigo mas nao no outro (ponto extra)
+    i = 0;
+    while (pessoa = getConteudoByPosicao(pessoas, i))
+    {
+        Pessoa *amigo;
+        int j = i;
+
+        while (amigo = getConteudoByPosicao(pessoas, ++j))
+        {
+            analisarSimilaridades(pessoa, amigo);
+        }
+
+        mergePlaylistsPessoas(pessoa);
 
         i++;
     }
 
     i = 0;
-    FILE *fp = fopen("data/Saida/similaridades.txt","w");
-    fclose(fp);
     while (pessoa = getConteudoByPosicao(pessoas, i))
     {
-        Pessoa *amigo; 
-        int j = i;
-        while( amigo = getConteudoByPosicao(pessoas,++j)){ 
-            
-            analisarSimilaridades(pessoa,amigo);
-            
-        }
-
-        mergePlaylistsPessoas(pessoa); 
-
+        gerarArquivosSaidaPlaylist(pessoa);
 
         i++;
     }
+}
+
+void criarPlaylistsPorAutoria(Pessoa *pessoa)
+{
+    int j = 0;
+    int qtdPlaylists = 0;
+    Playlist *playlist;
+    Lista *playlistsRefatoradas = novaListaPlaylist();
+
+    FILE *refatorada = fopen("data/Saida", "w");
+
+    //percorrendo as playlists da pessoa
+    while (playlist = getConteudoByPosicao(pessoa->playlists, j))
+    {
+        int k = 0;
+
+        Celula *celula;
+        Lista *musicas = getMusicas(playlist);
+
+        //percorrendo as musicas da playlist da pessoa
+        while (celula = getCelula(musicas, 0))
+        {
+            Musica *musica = getConteudoByCelula(celula);
+
+            //obtendo autor da musica
+            char *autorMusica = getAutorMusica(musica);
+            Playlist *playlistAutor = buscarLista(playlistsRefatoradas, autorMusica);
+
+            //se a playlist com o nome do autor existe, move a musica para a playlist
+            if (playlistAutor)
+            {
+                moverLista(musicas, getMusicas(playlistAutor), celula);
+            }
+            else //se não existe, cria uma nova playlist com o nome do autor e move a musica para a playlist
+            {
+                playlistAutor = novaPlaylist(autorMusica, 0);
+
+                adicionarLista(playlistsRefatoradas, playlistAutor);
+                moverLista(musicas, getMusicas(playlistAutor), celula);
+                //qtdPlaylists++;
+            }
+
+            k++;
+        }
+        
+        j++;
+    }
+
+    //destruindo as playlist antigas
+    destruirLista(pessoa->playlists);
+
+    //apontado para a nova lista de playlists
+    pessoa->playlists = playlistsRefatoradas;
+}
+
+void gerarArquivosSaidaPlaylist(Pessoa *pessoa)
+{
+    int j = 0;
+    Playlist *playlist;
+
+    //percorrendo as playlists da pessoa
+    while (playlist = getConteudoByPosicao(pessoa->playlists, j++))
+    {
+        Musica *musica;
+        int k = 0;
+
+        char path[100] = "data/Saida/";
+        strcat(path, pessoa->nome);
+        strcat(path, "/");
+        strcat(path, getNomePlaylist(playlist));
+        strcat(path, ".txt");
+
+        //necessário para limpar o conteúdo que estiver dentro de similaridades.txt
+        FILE *fp = fopen(path, "w");
+        fclose(fp);
+
+        //percorrendo as musicas da playlist da pessoa
+        while (musica = getConteudoByPosicao(getMusicas(playlist), k++))
+        {
+            char *autorMusica = getAutorMusica(musica);
+            char *nomeMusica = getNomeMusica(musica);
+
+            FILE *fp = fopen(path, "a");
+            fprintf(fp, "%s - %s\n", autorMusica, nomeMusica);
+            fclose(fp);
+        }
+    }
+    adicionarPlaylistArquivo(j - 1, pessoa);
 }
 
 void adicionarPlaylistArquivo(int qtdPlaylists, Pessoa *pessoa)
@@ -302,75 +300,98 @@ void adicionarPlaylistArquivo(int qtdPlaylists, Pessoa *pessoa)
     fprintf(fp, "%s,%i", pessoa->nome, qtdPlaylists);
     Playlist *playlist;
     int i = 0;
+
+    //percorrendo as playlists da pessoa
     while (playlist = getConteudoByPosicao(pessoa->playlists, i))
     {
-
-        char nomeArquivo[100]; 
-        strcpy(nomeArquivo , getNomePlaylist(playlist));
-        strcat(nomeArquivo,".txt"); 
+        char nomeArquivo[100];
+        strcpy(nomeArquivo, getNomePlaylist(playlist));
+        strcat(nomeArquivo, ".txt");
         fprintf(fp, ",%s", nomeArquivo);
 
         i++;
     }
+
     fprintf(fp, "\n");
     fclose(fp);
 }
 
-void criarPlaylistsPorAutoria(Pessoa *pessoa)
+void mergePlaylistsPessoas(Pessoa *pessoa)
 {
     int j = 0;
-    Playlist *playlist;
-    Lista *playlistsRefatoradas = novaListaPlaylist();
+    Pessoa *amigo;
 
-    FILE *refatorada = fopen("data/Saida", "w");
-
-    int qtdPlaylists = 0;
-    while (playlist = getConteudoByPosicao(pessoa->playlists, j))
+    //percorrendo os amigos da pessoa
+    while (amigo = getConteudoByPosicao(pessoa->amizades, j++))
     {
+        Playlist *playlist;
         int k = 0;
 
-        Celula *celula;
-        Lista *musicas = getMusicas(playlist);
-
-        while (celula = getCelula(musicas, 0))
+        //percorrendo as playlists da pessoa
+        while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
         {
-
-            Musica *musica = getConteudoByCelula(celula);
-
-            char *autorMusica = getAutorMusica(musica);
-
-            Playlist *playlistAutor = buscarLista(playlistsRefatoradas, autorMusica);
-
-            char path[100] = "data/Saida/";
-            strcat(path, pessoa->nome);
-            strcat(path, "/");
-            strcat(path, autorMusica);
-            strcat(path, ".txt");
-
-            if (playlistAutor) //Se a playlist com o nome do autor existe
+            //se encontrar uma playlist no amigo que tenha o mesmo nome da playlist da pessoa, checa as musicas
+            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
+            if (playlistAmigo)
             {
-                moverLista(musicas, getMusicas(playlistAutor), celula);
-            }
-            else // Se não existe, cria uma nova playlist com o nome do autor
-            {
-                playlistAutor = novaPlaylist(autorMusica, 0);
-                FILE *fp = fopen(path, "w");
-                fclose(fp);
-                adicionarLista(playlistsRefatoradas, playlistAutor);
-                moverLista(musicas, getMusicas(playlistAutor), celula);
-                qtdPlaylists++;
-            }
+                Musica *musica;
+                int m = 0;
 
-            FILE *fp = fopen(path, "a");
-            fprintf(fp, "%s - %s\n", autorMusica, getNomeMusica(musica));
-            fclose(fp);
-
-            k++;
+                //percorrendo as musicas da playlist da pessoa
+                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
+                {
+                    //se nao encontrar a musica da pessoa no amigo, adiciona a musica na playlist do amigo
+                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
+                    if (!musicaAmigo)
+                    {
+                        Musica *copiaMusica = novaMusica(getAutorMusica(musica), getNomeMusica(musica));
+                        adicionarMusica(playlistAmigo, copiaMusica);
+                    }
+                }
+            }
         }
-        j++;
     }
+}
 
-    destruirLista(pessoa->playlists);
-    pessoa->playlists = playlistsRefatoradas;
-    adicionarPlaylistArquivo(qtdPlaylists, pessoa);
+void analisarSimilaridades(Pessoa *pessoa, Pessoa *pessoa2)
+{
+    int j = 0;
+    Pessoa *amigo;
+
+    FILE *fp = fopen("data/Saida/similaridades.txt", "a");
+
+    //verificando se as pessoas sao amigas
+    amigo = buscarLista(pessoa->amizades, pessoa2->nome);
+    if (amigo)
+    {
+        Playlist *playlist;
+        int k = 0;
+        int similaridades = 0;
+
+        //se forem amigos, percorre a playlist da pessoa
+        while (playlist = getConteudoByPosicao(pessoa->playlists, k++))
+        {
+            //se encontrar uma playlist no amigo que tenha o mesmo nome da playlist da pessoa, checa as musicas
+            Playlist *playlistAmigo = buscarLista(amigo->playlists, getNomePlaylist(playlist));
+            if (playlistAmigo)
+            {
+                Musica *musica;
+                int m = 0;
+
+                //percorrendo as musicas da playlist da pessoa
+                while (musica = getConteudoByPosicao(getMusicas(playlist), m++))
+                {
+                    //se encontrar a musica na playlist do amigo, incrementa contador
+                    Musica *musicaAmigo = buscarLista(getMusicas(playlistAmigo), musica);
+                    if (musicaAmigo)
+                    {
+                        similaridades++;
+                    }
+                }
+            }
+        }
+
+        //escrevendo no arquivo a quantidade de similaridades
+        fprintf(fp, "%s;%s;%i", pessoa->nome, amigo->nome, similaridades);
+    }
 }

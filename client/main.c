@@ -7,40 +7,29 @@
 
 int main()
 {
-    //Ler o arquivo com os usuarios e a lista de amizades dos programas
-
-    // char path[100] = "data/Entrada/amizade.txt";
-    // lerAmizades(path);
-
-    // FILE *fp;
-    // fp = fopen("data/Entrada/amizade.txt", "r");
-    // if (fp == NULL)
-    // {
-    //     perror("fopen()");
-    //     return EXIT_FAILURE;
-    // }
-    // char *texto = lerLinha(fp);
-
-    // fclose(fp);
-
     // lendo os dois primeiros arquivos do programa.
-
     Lista *pessoas = lerAmizades("data/Entrada/amizade.txt");
-
     lerPlaylists(pessoas, "data/Entrada/playlists.txt");
 
+    printf("\n\n\n-------------------------------\n");
+    printf("-------------------------------\n");
+    printf("--------LEITURA INICIAL--------\n");
+    printf("-------------------------------\n");
+    printf("-------------------------------\n\n\n");
+
     imprimirLista(pessoas);
 
-    printf("---------------------------\n");
     printf("---------------------------\n");
     printf("--------REFATORANDO--------\n");
-    printf("---------------------------\n");
+    printf("-------------E-------------\n");
+    printf("---------MESCLANDO---------\n");
     printf("---------------------------\n\n\n");
 
+    // efetuando as manipulacoes solicitadas pelo roteiro do trabalho e imprimindo o resultado
     manipularDados(pessoas);
-
     imprimirLista(pessoas);
 
+    //destruindo objetos
     destruirLista(pessoas);
     return 0;
 }

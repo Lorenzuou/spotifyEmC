@@ -1,17 +1,12 @@
-
 #ifndef UTIL_H
 #define UTIL_H
-#include <stdio.h>
-#include <stdlib.h>
 
-void removerQuebraLinha(char *nome);
+#include <string.h>
 
 /**
-*@brief lê e retorna uma linha de um arquivo de texto especificado. A cada chamada da função, enquanto o arquivo não for fechado, ela lera uma nova linha 
-* @param fp FILE aberta 
-* @return string da linha lida
+* @brief remove a quebra de linha do final de uma string
+* @param string string a ter a quebra de linha removida
 */
-char *lerLinha(FILE *fp); 
-
+void removerQuebraLinha(char *string);
 
 #endif

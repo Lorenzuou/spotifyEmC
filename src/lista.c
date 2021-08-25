@@ -1,6 +1,7 @@
 #include "lista.h"
 #include <string.h>
 #include <stdlib.h>
+
 struct celula
 {
 	void *conteudo;
@@ -68,8 +69,6 @@ void *buscarLista(Lista *lista, void *conteudo)
 
 void imprimirLista(Lista *lista)
 {
-	int i = 1;
-
 	Celula *celula = lista->primeiraCelula;
 	if (!celula)
 	{
@@ -79,12 +78,10 @@ void imprimirLista(Lista *lista)
 	{
 		while (celula)
 		{
-			printf("%d - ", i);
 			if (lista->printFunc)
 				lista->printFunc(celula->conteudo);
 
 			celula = celula->prox;
-			i++;
 		}
 	}
 }
@@ -110,43 +107,6 @@ void adicionarLista(Lista *lista, void *conteudo)
 	{
 		lista->primeiraCelula = novaCelula;
 	}
-}
-
-void *removerItemLista(Lista *lista, int indice)
-{
-	int cont = 0;
-	Celula *ant = NULL;
-	Celula *c = lista->primeiraCelula;
-	void *mat;
-	while (cont != indice - 1)
-	{
-		ant = c;
-		c = c->prox;
-
-		cont++;
-	}
-
-	mat = c->conteudo;
-
-	if (c == lista->primeiraCelula && c == lista->ultimaCelula)
-	{
-		lista->primeiraCelula = lista->ultimaCelula = NULL;
-	}
-	else if (c == lista->primeiraCelula)
-	{
-		lista->primeiraCelula = c->prox;
-	}
-	else if (c == lista->ultimaCelula)
-	{
-		lista->ultimaCelula = ant;
-		lista->ultimaCelula->prox = NULL;
-	}
-	else
-	{
-		ant->prox = c->prox;
-	}
-	free(c);
-	return (mat);
 }
 
 void moverLista(Lista *listaOrigem, Lista *listaDestino, Celula *atual)
@@ -206,6 +166,18 @@ void *getConteudoByPosicao(Lista *lista, int posicao)
 	return atual ? atual->conteudo : NULL;
 }
 
+void *getCelula(Lista *lista, int posicao)
+{
+	Celula *atual = lista->primeiraCelula;
+
+	for (int i = 0; i < posicao; i++)
+	{
+		atual = atual->prox;
+	}
+
+	return atual;
+}
+
 void *getConteudoByCelula(Celula *celula)
 {
 	if (celula)
@@ -220,16 +192,4 @@ void *getCelulaAnterior(Celula *celula)
 		return celula->ant;
 
 	return NULL;
-}
-
-void *getCelula(Lista *lista, int posicao)
-{
-	Celula *atual = lista->primeiraCelula;
-
-	for (int i = 0; i < posicao; i++)
-	{
-		atual = atual->prox;
-	}
-
-	return atual;
 }
